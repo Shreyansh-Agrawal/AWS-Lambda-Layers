@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM Template for Lambda Function with Lambda Layer
+Resources:
+  MyLambdaLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: my-lambda-layer
+      Description: My Lambda Layer
+      ContentUri: MyLambdaLayer
+      CompatibleRuntimes:
+      - python3.9
+      - python3.10
+      - python3.11
+    Metadata:
+      BuildMethod: python3.11
+      SamResourceId: MyLambdaLayer
+  MyLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: MyLambdaFunction
+      Runtime: python3.11
+      Handler: app.lambda_handler
+      CodeUri: MyLambdaFunction
+      Layers:
+      - Ref: MyLambdaLayer
+    Metadata:
+      SamResourceId: MyLambdaFunction
